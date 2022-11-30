@@ -38,11 +38,11 @@ class List {
 }
 
 class Item {
-    constructor(el, img = 'https://via.placeholder.com/200') {
+    constructor(el) {
         this.product_name = el.product_name;
         this.price = el.price;
         this.id_product = el.id_product;
-        this.img = img
+        this.img = el.img
     }
     render() {   
         return `   <div class="product-item" data-id="${this.id_product}">
