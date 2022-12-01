@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="normalize.css">
+    <!-- <link rel="stylesheet" href="normalize.css"> -->
     <link rel="stylesheet" href="style.css">
     <title>E-shop</title>
 </head>
@@ -14,8 +14,24 @@
            <div class="headerWrap wrapper">
             <div class="header__left">E-SHOP</div>
             <div class="header__right">
-                    <button class="btn-cart btn">Корзина</button>
-                    <div class="cart-block invisible"></div>
+                <form action="#" class="search-form">
+                    <input type="text" class="search-field">
+                    <button class="btn-search" type="submit">Search</button>
+                </form>
+                <button class="btn-cart btn">Корзина</button>
+                <div class="cart__info">
+                    <p>Товаров: 
+                        <span class="quant">2</span>
+                    </p>
+            
+                    <p>Набрал на: 
+                        <span class="cost"></span>
+                    </p>
+                </div>
+                <div class="cart-block invisible"></div>
+            </div>
+
+                  
             </div>
            </div>
         </header>

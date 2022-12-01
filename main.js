@@ -6,6 +6,8 @@ class List {
         this.list = list;
         this.good = [];
         this.allProducts = [];
+        this.prices = [];
+        this.filtered = [];
         this._init()
     }
     getJson(url) {
@@ -32,8 +34,24 @@ class List {
             const productObj = new this.list[this.constructor.name](product);
             console.log(productObj);
             this.allProducts.push(productObj);
+            this.prices.push(productObj.price);
             block.insertAdjacentHTML('beforeend', productObj.render())
         }
+        console.log(this.prices)
+        document.querySelector('.quant').textContent = 2
+    }
+    filter(value) {
+        const regexp = new RegExp(value, 'i');
+        this.filtered = this.allProducts.filter(product => regexp.test(product.product_name));
+        console.log(this.filtered)
+        this.allProducts.forEach(el => {
+            const good = document.querySelector(`.product-item[data-id="${el.id_product}"]`);
+            if(!this.filtered.includes(el)){
+                good.classList.add('invisible');
+            } else {
+                good.classList.remove('invisible');
+            }
+        })
     }
 }
 
@@ -46,15 +64,17 @@ class Item {
     }
     render() {   
         return `   <div class="product-item" data-id="${this.id_product}">
-        <img src="${this.img}" alt="">
+        <img src="${this.img}" alt="img">
         <div class="desc">
             <h3>${this.product_name}</h3>
             <p>${this.price}</p>
             </div>    
             <button class="buy-btn" 
             data-id="${this.id_product}"
+            data-img ="${this.img}"
             data-name="${this.product_name}"
-            data-price="${this.price}">Buy</button>
+            data-price="${this.price}"
+            >Buy</button>
          </div>
          </div>
          `
@@ -74,6 +94,11 @@ class ProductsList extends List{
                 this.cart.addProduct(e.target)
             }
         });
+        document.querySelector('.search-form').addEventListener('keyup', e => {
+            e.preventDefault();
+            this.filter(document.querySelector('.search-field').value);
+        })
+
     }
 }
 
@@ -148,10 +173,11 @@ class Cart extends List {
 }
 
 class CartItem extends Item {
-    constructor(el, img = 'https://via.placeholder.com/50') {
-        super(el, img);
-        this.quantity = el.quantity
-    }
+    constructor(el) {
+        super(el);
+        this.quantity = el.quantity;
+
+            }
     render() {
         return ` <div class="cart-item" data-id="${this.id_product}">
                  <div class="product-bio">

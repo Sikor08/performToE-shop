@@ -13,6 +13,9 @@ header{
     position: relative;
 
 }
+.header__right{
+    display: flex;
+}
 .products{
     padding-top: 50px;
     display: grid;
@@ -36,6 +39,7 @@ header{
     display: none;
 }
 .cart-block{
+    background: aliceblue;
     overflow-y: scroll;
     height: 300px;
     border: 1px solid #000;
@@ -51,4 +55,8 @@ header{
     align-items: center;
     border: 1px solid #000;
     margin-bottom: 5px;
+    img{
+        width: 50px;
+        height: 50px;
+    }
 }
