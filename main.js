@@ -6,7 +6,6 @@ class List {
         this.list = list;
         this.good = [];
         this.allProducts = [];
-        this.prices = [];
         this.filtered = [];
         this._init()
     }
@@ -34,12 +33,11 @@ class List {
             const productObj = new this.list[this.constructor.name](product);
             console.log(productObj);
             this.allProducts.push(productObj);
-            this.prices.push(productObj.price);
             block.insertAdjacentHTML('beforeend', productObj.render())
         }
-        console.log(this.prices)
-        document.querySelector('.quant').textContent = 2
+        console.log(this.allProducts.length)
     }
+    
     filter(value) {
         const regexp = new RegExp(value, 'i');
         this.filtered = this.allProducts.filter(product => regexp.test(product.product_name));
@@ -123,6 +121,7 @@ class Cart extends List {
                     this._updateCart(find);
                 }else {
                     let product = {
+                        img: element.dataset['img'],
                         id_product: productId,
                         price: +element.dataset['price'],
                         product_name: element.dataset['name'],
@@ -140,6 +139,9 @@ class Cart extends List {
         this.getJson(`${API}/deleteFromBusket.json`)
         .then(data => {
             if(data.result === 1){
+                let cartBlock = document.querySelector('.cart-block');
+                cartBlock.classList.add('invisible')
+
                 let productId = +element.dataset['id'];
                 let find = this.allProducts.find(product => product.id_product === productId);
                 if(find.quantity > 1){
@@ -153,11 +155,13 @@ class Cart extends List {
                 alert('Error')
             }
         })
+
     }
     _updateCart(product){
         let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`);
         block.querySelector('.product-quantity').textContent = `Quantity :${product.quantity}`;
         block.querySelector('.product-price').textContent = `${product.quantity*product.price}$`;
+      
     }
     _init() {
         document.querySelector('.btn-cart').addEventListener('click', () => {
